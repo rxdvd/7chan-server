@@ -1,0 +1,22 @@
+[
+    {
+        "id": 0,
+        "title": "some text",
+        "message": "message",
+        "giphy": "giphy_url",
+        "comments": [
+            {
+                "id": 0,
+                "message": "message",
+                "gif": "url",
+                "time": "time"
+            }
+        ],
+        "reactions": {
+            "thumbs_up": [],
+            "thumbs_down": [],
+            "heart": []
+        },
+        "time": "time"
+    }
+]
