@@ -18,6 +18,10 @@ API server for group project working on an anonymous community journaling websit
 * `npm run coverage` to check test coverage
 * `npm run dev` to run the server with `nodemon`
 
+### Deployment
+
+This server is currently deployed at https://safe-coast-17152.herokuapp.com/
+
 ## Project Goal
 
 Build a website where users can anonymously post journal entries for other people to see, comment on and react to using emojis.
