@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest --watchAll --detectOpenHandles",
+    "coverage": "jest --coverage",
     "dev": "nodemon index.js"
   },
   "author": "",
