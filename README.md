@@ -2,8 +2,8 @@
 
 <!-- badges -->
 [![ISC license](https://img.shields.io/badge/License-ISC-blue.svg)](https://www.isc.org/licenses/)
-[![GitHub latest commit](https://badgen.net/github/last-commit/rxdvd/7chan-server)](https://GitHub.com/rxdvd/7chan-server/commit/)
-[![GitHub forks](https://img.shields.io/github/forks/rxdvd/7chan-server.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/rxdvd/7chan-server)
+[![GitHub latest commit](https://img.shields.io/github/last-commit/rxdvd/7chan-server.svg)](https://GitHub.com/rxdvd/7chan-server/commit/)
+[![GitHub forks](https://img.shields.io/github/forks/rxdvd/7chan-server.svg)](https://GitHub.com/rxdvd/7chan-server)
 
 API server for group project working on an anonymous community journaling website.
 
