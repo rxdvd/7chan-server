@@ -31,9 +31,19 @@ app.get('/posts/:pid', (req, res) => {
     }
 });
 
-// CREATE - one post
-app.post('/posts', (req, res) => {
-
+// CREATE - one post -need to add item persistently
+app.post('/posts', (req, res) =>{
+    console.log("hello");
+    try{
+    let newPost = req.body;
+    console.log(posts);
+    if(!newPost) { throw new Error(`No comment entered`)}
+    posts.unshift(newPost);
+    console.log(posts);
+    res.json(posts[0]);
+    } catch (error) {
+        res.status(400).json({message: error.message});
+    }
 });
 
 // CREATE - one comment / UPDATE the post with one comment
@@ -42,7 +52,7 @@ app.post('/posts', (req, res) => {
 });
 
 // CREATE emoji
-app.post('/post/:pid/emoji', (req, res) => {
+app.post('/posts/:pid/emoji', (req, res) => {
     
 });
 
