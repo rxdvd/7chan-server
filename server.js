@@ -34,11 +34,11 @@ app.get('/posts/:pid', (req, res) => {
 });
 
 // CREATE - one post -will need to add item persistently
-// CLIENT INPUT LOOKS LIKE this:
+// CLIENT INPUT LOOKS LIKE THE FOLLOWING (can be used to try the route)
 // { 
 //     "title": "new post, new title",
 //     "message": "new post, new message",
-//     "giphy": "https://media0.giphy.com/media/enNk8yXXpDHYzD3tqF/giphy.gif?cid=5c2583098j8m18kl0gh9xq3wv558ovtq7d8ykr71wna9ycwg&rid=giphy.gif&ct=g",
+//     "giphy": "https://media0.giphy.com/media/enNk8yXXpDHYzD3tqF/giphy.gif?cid=5c2583098j8m18kl0gh9xq3wv558ovtq7d8ykr71wna9ycwg&rid=giphy.gif&ct=g"
 // }
 
 app.post('/posts', (req, res) =>{
@@ -73,15 +73,15 @@ app.post('/posts', (req, res) =>{
 
 // CREATE - add one comment 
 
-// CLIENT INPUT LOOKS LIKE:
+// CLIENT INPUT LOOKS LIKE THE FOLLOWING (can be used to try the route)::
 // { 
 //  "comment": "another comment"
 // }
 
-// WILL NEED TO FILL IN AN ELEMEMENT that look like:
+// WILL NEED TO FILL IN AN ELEMEMENT THAT LOOKS LIKE THE FOLLOWING:
 // "comments": [
 //     {
-//         "cid": 3,
+//         "cid": 0,
 //         "comment": "message",
 //         "time": 1285253453498
 //     }
