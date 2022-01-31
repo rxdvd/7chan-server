@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 // READ all
 app.get('/posts', (req, res) => {
     res.json(posts)
+    res.send(console.log("You can now see all of the posts"))
 });
 
 // READ by pid
@@ -27,9 +28,11 @@ app.get('/posts/:pid', (req, res) => {
         let matchingPost = posts.find( ({pid}) => pid == requestedPostId);
         if(!matchingPost) { throw new Error(`Sorry we don't have a post id of ${requestedPostId}`)}
         res.json(matchingPost);
+        res.send(console.log(`You can now see the post ${pid}`))
     } catch (error) {
         res.status(404).json({message: error.message});
     }
+    
 });
 
 // CREATE - one post -need to add item persistently
@@ -74,6 +77,8 @@ app.patch('/posts/:pid/emoji', (req, res) => {
             } else {
 
             }
+            res.json(posts.reactions[thumbs_up]);
+            res.send(console.log("The value of the thumbs up emoji has changed"));
         }
 
     }
