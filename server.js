@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
 // READ all
 app.get('/posts', (req, res) => {
     res.json(posts)
-    res.send("You can now see all of the posts")
 });
 
 // READ by pid
@@ -28,7 +27,6 @@ app.get('/posts/:pid', (req, res) => {
         let matchingPost = posts.find( ({pid}) => pid == requestedPostId);
         if(!matchingPost) { throw new Error(`Sorry we don't have a post id of ${requestedPostId}`)}
         res.json(matchingPost);
-        //res.send(`You can now see the post ${pid}`)
     } catch (error) {
         res.status(404).json({message: error.message});
     }
@@ -36,7 +34,7 @@ app.get('/posts/:pid', (req, res) => {
 });
 
 // CREATE - one post -will need to add item persistently
-// CLIENT INPUT LOOKS LIKE:
+// CLIENT INPUT LOOKS LIKE this:
 // { 
 //     "title": "new post, new title",
 //     "message": "new post, new message",
@@ -50,7 +48,8 @@ app.post('/posts', (req, res) =>{
     let newMessage = req.body.message;
     let newGiphy = req.body.giphy;
     let timeNow = Date.now();
-
+    if(!newTitle) { throw new Error(`No title entered.`)};
+    if(!newMessage) { throw new Error(`No text entered.`)};
     let newPost = {
         "pid": newId,
         "title": newTitle,
@@ -64,8 +63,6 @@ app.post('/posts', (req, res) =>{
         },
         "time": timeNow
     }
-    if(!newTitle) { throw new Error(`No title entered.`)};
-    if(!newTitle) { throw new Error(`No text entered.`)};
     posts.unshift(newPost);
     res.json(newPost); // only one res. will go through
     //res.send("comment added successfully"); // only one res. will go through
@@ -78,7 +75,7 @@ app.post('/posts', (req, res) =>{
 
 // CLIENT INPUT LOOKS LIKE:
 // { 
-//     "cid": 2,
+//     "pid": 2,
 //     "comment": "another comment"
 // }
 
@@ -86,14 +83,14 @@ app.post('/posts', (req, res) =>{
 // "comments": [
 //     {
 //         "cid": 3,
-//         "message": "message",
+//         "comment": "message",
 //         "time": 1285253453498
 //     }
 // ]
 
 app.post('/posts/:id/comments', (req, res) => {
     try {
-        let newMessage = req.body.message;
+        let newMessage = req.body.comment;
         console.log(posts);
         console.log(newMessage);
         let timeNow = Date.now();
@@ -106,7 +103,7 @@ app.post('/posts/:id/comments', (req, res) => {
         let newcId = matchingPost.comments[0].cid + 1 || 0;
         console.log(newcId);
         console.log(posts[postIndex].comments);
-        let newComment = {"cid": newcId, "message": newMessage, "time":timeNow};
+        let newComment = {"cid": newcId, "comment": newMessage, "time":timeNow};
         console.log(newComment);
         posts[postIndex].comments.unshift(newComment);
         res.json(posts[postIndex]); // only one res. will go through
@@ -116,7 +113,7 @@ app.post('/posts/:id/comments', (req, res) => {
     }
 });
 
-// CREATE emoji
+// CREATE emoji { "emoji": "thumbs_up", "uid": "123456" }
 app.patch('/posts/:pid/emoji', (req, res) => {
     // check if uid from request is in the array
     // remove it if in array
