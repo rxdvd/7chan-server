@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "runner-server",
-=======
   "name": "coderunner-server",
->>>>>>> 33164bb09e9b1ee5a51cd07a87d32d5287bac328
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
