@@ -54,14 +54,17 @@ app.post('/posts', (req, res) => {
 
 // CREATE emoji
 app.patch('/posts/:pid/emoji', (req, res) => {
-    
+    // check if uid from request is in the array
+    // remove it if in array
+    // push it if not in array
+
     let emojiCount = req.body;
 
-    let emojiCountThumbsUp = req.params.reactions.thumbs_up;
+    let emojiCountThumbsUp = posts[req.params.pid].reactions["thumbs_up"].length;
     function checkEmojiCountThumbsUp(uid, thumbsUpArr) {
 
-        let uid = insertuidherefromclientside;
-        let thumbsUpArr = addpathtoThumbsup;
+        // let uid = insertuidherefromclientside;
+        // let thumbsUpArr = addpathtoThumbsup;
 
         for(let i=0; thumbsUpArr.length; i++){
             if(thumbsUpArr[i] === uid){
