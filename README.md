@@ -78,6 +78,18 @@ To create this API we decided to use the popular routing framework express to im
 }
 ```
 
+### Obj structure to Create Post from User Input
+
+```json
+{ // for each journal post
+    "title": "title",
+    "message": "message",
+    "giphy": "giphy_url",
+    "time": 0
+}
+```
+
+
 ## Changelog
 
 + Renamed `id` tp `pid` for post id and `cid` for comment id 
