@@ -1,15 +1,22 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const { send } = require('express/lib/response');
 
 app.use(cors());
 app.use(express.json());
 
+const posts = require("./data/posts.json")
 // C R U D
+
+// Home page
+app.get("/", (req, res) => {
+    res.send('Hello code runners!');
+  });  
 
 // READ ALL
 app.get('/posts', (req, res) => {
-    
+    send.json(posts)
 });
 
 // READ by ID
