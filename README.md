@@ -1,16 +1,16 @@
-# 7chan-server
+# coderunner-server
 
 <!-- badges -->
 [![ISC license](https://img.shields.io/badge/License-ISC-blue.svg)](https://www.isc.org/licenses/)
-[![GitHub latest commit](https://img.shields.io/github/last-commit/rxdvd/7chan-server.svg)](https://GitHub.com/rxdvd/7chan-server/commit/)
-[![GitHub forks](https://img.shields.io/github/forks/rxdvd/7chan-server.svg)](https://GitHub.com/rxdvd/7chan-server)
+[![GitHub latest commit](https://img.shields.io/github/last-commit/rxdvd/coderunner-server.svg)](https://GitHub.com/rxdvd/coderunner-server/commit/)
+[![GitHub forks](https://img.shields.io/github/forks/rxdvd/coderunner-server.svg)](https://GitHub.com/rxdvd/coderunner-server)
 
 API server for group project working on an anonymous community journaling website.
 
 ## Installation & Usage
 
 1. Clone this repo using `git clone`
-2. Enter the directory `cd 7chan-server`
+2. Enter the directory `cd coderunner-server`
 3. Install dependencies `npm install`
    
 * `npm start` to run the server.
@@ -50,7 +50,6 @@ To create this API we decided to use the popular routing framework express to im
 | `GET /post/:pid` | Return a JSON object with data for a specific post |
 | `POST /posts` | Create a new post data entry |
 | `POST /post/:pid/emoji` | Add or remove an emoji reaction from a post |
-| `POST /post/:pid/comment/:cid/emoji` | Add or remove an emoji reaction from a comment |
 
 ### Object Structure
 
@@ -64,7 +63,6 @@ To create this API we decided to use the popular routing framework express to im
         {
             "id": 0,
             "message": "message",
-            "giphy": "giphy_url",
             "time": 0
         }
     ],
