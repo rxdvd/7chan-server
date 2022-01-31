@@ -4,13 +4,7 @@
         "title": "some text",
         "message": "message",
         "giphy": "giphy_url",
-        "comments": [
-            {
-                "cid": 0,
-                "message": "message",
-                "time": 0
-            }
-        ],
+        "comments": [  ],
         "reactions": {
             "thumbs_up": [],
             "thumbs_down": [],

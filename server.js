@@ -75,8 +75,7 @@ app.post('/posts', (req, res) =>{
 
 // CLIENT INPUT LOOKS LIKE:
 // { 
-//     "pid": 2,
-//     "comment": "another comment"
+//  "comment": "another comment"
 // }
 
 // WILL NEED TO FILL IN AN ELEMEMENT that look like:
@@ -88,19 +87,20 @@ app.post('/posts', (req, res) =>{
 //     }
 // ]
 
-app.post('/posts/:id/comments', (req, res) => {
+app.post('/posts/:pid/comments', (req, res) => {
     try {
         let newMessage = req.body.comment;
         console.log(posts);
         console.log(newMessage);
         let timeNow = Date.now();
-        let requestedPostId = req.body.pid;
+        let requestedPostId = req.params.pid;
         console.log(requestedPostId);
         let postIndex = posts.findIndex(x => x.pid == requestedPostId);
         console.log(postIndex);
         if(postIndex === -1) { throw new Error(`Sorry we can't find a post id of ${requestedPostId}`)};
         let matchingPost = posts[postIndex];
-        let newcId = matchingPost.comments[0].cid + 1 || 0;
+        let newcId = 0;
+        if(matchingPost.comments[0]) {newcId = matchingPost.comments[0].cid+1};
         console.log(newcId);
         console.log(posts[postIndex].comments);
         let newComment = {"cid": newcId, "comment": newMessage, "time":timeNow};
@@ -113,15 +113,14 @@ app.post('/posts/:id/comments', (req, res) => {
     }
 });
 
-// CREATE emoji { "emoji": "thumbs_up", "uid": "123456" }
+// CREATE emoji {"pid": pid, "emoji": "thumbs_up", "uid": "123456",}
 app.patch('/posts/:pid/emoji', (req, res) => {
     // check if uid from request is in the array
     // remove it if in array
     // push it if not in array
+    let emojiCount = posts[req.params.pid].reactions["thumbs_up"].length;
 
-    let emojiCount = req.body;
 
-    let emojiCountThumbsUp = posts[req.params.pid].reactions["thumbs_up"].length;
     function checkEmojiCountThumbsUp(uid, thumbsUpArr) {
 
         // let uid = insertuidherefromclientside;

@@ -85,7 +85,6 @@ To create this API we decided to use the popular routing framework express to im
     "title": "title",
     "message": "message",
     "giphy": "giphy_url",
-    "time": 0
 }
 ```
 
