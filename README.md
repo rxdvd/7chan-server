@@ -49,19 +49,20 @@ To create this API we decided to use the popular routing framework express to im
 | `GET /posts` | Return a JSON object of all post data |
 | `GET /post/:pid` | Return a JSON object with data for a specific post |
 | `POST /posts` | Create a new post data entry |
+| `POST /posts/:pid/comments` | Create a new comment data entry |
 | `POST /post/:pid/emoji` | Add or remove an emoji reaction from a post |
 
 ### Object Structure
 
 ```json
 { // for each journal post
-    "id": 0,
+    "pid": 0,
     "title": "title",
     "message": "message",
     "giphy": "giphy_url",
     "comments": [
         {
-            "id": 0,
+            "cid": 0,
             "message": "message",
             "time": 0
         }
@@ -79,7 +80,7 @@ To create this API we decided to use the popular routing framework express to im
 
 ## Changelog
 
-
++ Renamed `id` tp `pid` for post id and `cid` for comment id 
 
 ## Fixed Bugs
 
@@ -88,6 +89,7 @@ To create this API we decided to use the popular routing framework express to im
 ## Pitfalls & Discoveries
 
 <!-- things you didn't know how to do, how you solved it i.e. any time you had to google -->
++ Using a destructuring tecnique to find an object by "inner id": `posts.find( ({pid}) => pid == requestedPostId)` https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
 
 ## Remaining Bugs
 
