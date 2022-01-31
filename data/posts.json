@@ -8,8 +8,7 @@
             {
                 "id": 0,
                 "message": "message",
-                "gif": "url",
-                "time": "time"
+                "time": 0
             }
         ],
         "reactions": {
@@ -17,6 +16,6 @@
             "thumbs_down": [],
             "heart": []
         },
-        "time": "time"
+        "time": 0
     }
 ]
