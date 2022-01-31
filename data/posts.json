@@ -1,12 +1,12 @@
 [
     {
-        "id": "00000",
+        "pid": 0,
         "title": "some text",
         "message": "message",
         "giphy": "giphy_url",
         "comments": [
             {
-                "id": "00001",
+                "cid": 0,
                 "message": "message",
                 "time": 0
             }
@@ -20,13 +20,13 @@
     },
 
     {
-        "id": "00002",
+        "pid": 1,
         "title": "some text",
         "message": "message",
         "giphy": "giphy_url",
         "comments": [
             {
-                "id": "00003",
+                "cid": 0,
                 "message": "message",
                 "time": 0
             }
@@ -40,13 +40,13 @@
     },
 
     {
-        "id": "00004",
+        "pid": 2,
         "title": "some text",
         "message": "message",
         "giphy": "giphy_url",
         "comments": [
             {
-                "id": 00005,
+                "cid": 0,
                 "message": "message",
                 "time": 0
             }
