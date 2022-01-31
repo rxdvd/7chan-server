@@ -1,28 +1,31 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const { send } = require('express/lib/response');
 
 app.use(cors());
 app.use(express.json());
 
+const posts = require("./data/posts.json")
 // C R U D
 
+// Welcome message
 app.get('/', (req, res) => {
-    res.json('Testing Testing 1...2...3')
+    res.json('Welcome to all code runners!')
 })
 
-// READ ALL
+// READ all
 app.get('/posts', (req, res) => {
     res.json(posts)
 });
 
-// READ by ID
-app.get('/post/:pid', (req, res) => {
+// READ by pid
+app.get('/posts/:pid', (req, res) => {
     try {
-        let requestedPost = req.params.pid
-        let matchingPost = search.find((item) => item.id === requestedPost);
-        if(!matchingPost) { throw new Error(`Sorry we don't have a post id of ${requestedSearch}`)}
-        res.json(matchingPost)
+        let requestedPostId = req.params.pid;
+        let matchingPost = posts.find( ({pid}) => pid == requestedPostId);
+        if(!matchingPost) { throw new Error(`Sorry we don't have a post id of ${requestedPostId}`)}
+        res.json(matchingPost);
     } catch (error) {
         res.status(404).json({message: error.message});
     }
