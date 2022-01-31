@@ -90,21 +90,14 @@ app.post('/posts', (req, res) =>{
 app.post('/posts/:pid/comments', (req, res) => {
     try {
         let newMessage = req.body.comment;
-        console.log(posts);
-        console.log(newMessage);
         let timeNow = Date.now();
         let requestedPostId = req.params.pid;
-        console.log(requestedPostId);
         let postIndex = posts.findIndex(x => x.pid == requestedPostId);
-        console.log(postIndex);
         if(postIndex === -1) { throw new Error(`Sorry we can't find a post id of ${requestedPostId}`)};
         let matchingPost = posts[postIndex];
         let newcId = 0;
         if(matchingPost.comments[0]) {newcId = matchingPost.comments[0].cid+1};
-        console.log(newcId);
-        console.log(posts[postIndex].comments);
         let newComment = {"cid": newcId, "comment": newMessage, "time":timeNow};
-        console.log(newComment);
         posts[postIndex].comments.unshift(newComment);
         res.json(posts[postIndex]); // only one res. will go through
         //res.send("comment added successfully") // only one res. will go through
