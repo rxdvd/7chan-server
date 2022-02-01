@@ -2,6 +2,12 @@ const express = require('express');
 const router1 = express.Router();
 const posts = require("../data/posts.json")
 
+// middleware that is specific to this router
+// router1.use(function timeLog (req, res, next) {
+//     let today = new Date();
+//     console.log(today.toISOString());
+//     next();
+//   })
 // C R U D notation is followed
 
 // READ all
