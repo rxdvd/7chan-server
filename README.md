@@ -64,7 +64,7 @@ To create this API we decided to use the popular routing framework express to im
         {
             "cid": 0,
             "message": "message",
-            "time": 0
+            "timestamp": 0
         }
     ],
     "reactions": {
@@ -74,7 +74,7 @@ To create this API we decided to use the popular routing framework express to im
         "thumbs_down": [],
         "heart": []
     },
-    "time": 0
+    "timestamp": 0
 }
 ```
 
