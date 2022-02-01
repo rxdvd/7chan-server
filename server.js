@@ -106,69 +106,23 @@ app.post('/posts/:pid/comments', (req, res) => {
     }
 });
 
-// CREATE emoji {"pid": pid, "emoji": "thumbs_up", "uid": "123456",}
+// CREATE emoji {"emoji": "thumbs_down", "uid": "1234"}
 app.patch('/posts/:pid/emoji', (req, res) => {
-    // check if uid from request is in the array
-    // remove it if in array
-    // push it if not in array
-    let emojiCount = posts[req.params.pid].reactions["thumbs_up"].length;
 
+    let userId = req.body.uid; 
+    let requestedEmoji = req.body.emoji;
+    let requestedPostId = req.params.pid;
 
-    function checkEmojiCountThumbsUp(uid, thumbsUpArr) {
-
-        // let uid = insertuidherefromclientside;
-        // let thumbsUpArr = addpathtoThumbsup;
-
-        for(let i=0; thumbsUpArr.length; i++){
-            if(thumbsUpArr[i] === uid){
-                return thumbsUpArr.splice(uid)
-            } else if( thumbsUpArr.includes(uid) === false) {
-                return thumbsUpArr.push(uid)
-            } else {
-
-            }
-            res.json(posts.reactions[thumbs_up]);
-            res.send(console.log("The value of the thumbs up emoji has changed"));
-        }
-
-    }
-
-    // let emojiCountThumbsDown = req.params.reactions.thumbs_down;
-    // function checkEmojiCountThumbsDown(uid, thumbsDowbArr) {
-
-    //     let uid = insertuidherefromclientside;
-    //     let thumbsDownArr = addpathtoThumbsdown;
-
-    //     for(let i=0; thumbsDowbArr.length; i++){
-    //         if(thumbsDownArr[i] === uid){
-    //             return thumbsDownArr.splice(uid)
-    //         } else if( thumbsDownArr.includes(uid) === false) {
-    //             return thumbsDownArr.push(uid)
-    //         } else {
-
-    //         }
-    //     }
-
-    // }
-
-    // let emojiCountHeart = req.params.reactions.heart;
-    // function checkEmojiCountHeart(uid, thumbsHeartArr) {
-
-    //     let uid = insertuidherefromclientside;
-    //     let HeartArr = addpathtoHeart;
-
-    //     for(let i=0; heartArr.length; i++){
-    //         if(heartArr[i] === uid){
-    //             return heartArr.splice(uid)
-    //         } else if( heartArr.includes(uid) === false) {
-    //             return heartArr.push(uid)
-    //         } else {
-
-    //         }
-    //     }
-
-    // }
-
+    let postIndex = posts.findIndex(x => x.pid == requestedPostId);  // find post
+    let isUIDin = posts[postIndex].reactions[requestedEmoji].includes(userId);  // check if uid from request is in the array
+   
+    if(!isUIDin) //toggle "function"
+        {posts[postIndex].reactions[requestedEmoji].unshift(userId);}
+       else
+        {posts[postIndex].reactions[requestedEmoji].splice(posts[postIndex].reactions[requestedEmoji].indexOf(userId), 1);} 
+    
+    res.json(posts[postIndex]);
+    
 });
 
 module.exports = app;
