@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { send } = require('express/lib/response');
+
+const fs = require("fs")
 
 app.use(cors());
 app.use(express.json());
@@ -64,6 +65,8 @@ app.post('/posts', (req, res) =>{
         "time": timeNow
     }
     posts.unshift(newPost);
+    console.log(typeof posts)
+    fs.writeFileSync("./data/posts.json", JSON.stringify(posts));
     res.json(newPost); // only one res. will go through
     //res.send("comment added successfully"); // only one res. will go through
     } catch (error) {
@@ -99,6 +102,7 @@ app.post('/posts/:pid/comments', (req, res) => {
         if(matchingPost.comments[0]) {newcId = matchingPost.comments[0].cid+1};
         let newComment = {"cid": newcId, "comment": newMessage, "time":timeNow};
         posts[postIndex].comments.unshift(newComment);
+        fs.writeFileSync("./data/posts.json", JSON.stringify(posts));
         res.json(posts[postIndex]); // only one res. will go through
         //res.send("comment added successfully") // only one res. will go through
       } catch (error) {
@@ -120,7 +124,7 @@ app.patch('/posts/:pid/emoji', (req, res) => {
         {posts[postIndex].reactions[requestedEmoji].unshift(userId);}
        else
         {posts[postIndex].reactions[requestedEmoji].splice(posts[postIndex].reactions[requestedEmoji].indexOf(userId), 1);} 
-    
+    fs.writeFileSync("./data/posts.json", JSON.stringify(posts));
     res.json(posts[postIndex]);
     
 });
