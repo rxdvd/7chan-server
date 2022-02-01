@@ -47,10 +47,10 @@ To create this API we decided to use the popular routing framework express to im
 | Route | Action |
 | - | - |
 | `GET /posts` | Return a JSON object of all post data |
-| `GET /post/:pid` | Return a JSON object with data for a specific post |
+| `GET /posts/:pid` | Return a JSON object with data for a specific post |
 | `POST /posts` | Create a new post data entry |
 | `POST /posts/:pid/comments` | Create a new comment data entry |
-| `POST /post/:pid/emoji` | Add or remove an emoji reaction from a post |
+| `POST /posts/:pid/emoji` | Add or remove an emoji reaction from a post |
 
 ### Object Structure
 
