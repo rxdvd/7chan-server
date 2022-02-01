@@ -104,7 +104,7 @@ To create this API we decided to use the popular routing framework express to im
 
 ## Remaining Bugs
 
-
++ throw an error if a comment is submitted blank
 
 ## Improvements & Future Features
 

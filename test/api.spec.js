@@ -89,12 +89,12 @@ describe('posts api', () => {
 
     // for PATCH for updating the uid in the array for reactions
 
-    test('responds PATCH with emojis in an array', done => {
-        request(app)
-            .get('/posts/:pid/emoji')
-            .expect('content-Type', 'application/json; charset=utf-8', done)
+    // test('responds PATCH with emojis in an array', done => {
+    //     request(app)
+    //         .get('/posts/:pid/emoji')
+    //         .expect('content-Type', 'application/json; charset=utf-8', done)
 
-    })
+    // })
 
     // test('to see if a new uid is added to the end', done>{
     //     request(app)
