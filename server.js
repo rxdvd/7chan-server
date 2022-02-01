@@ -62,7 +62,7 @@ app.post('/posts', (req, res) =>{
             "thumbs_down": [],
             "heart": []
         },
-        "time": timeNow
+        "timestamp": timeNow
     }
     posts.unshift(newPost);
     console.log(typeof posts)
@@ -86,7 +86,7 @@ app.post('/posts', (req, res) =>{
 //     {
 //         "cid": 0,
 //         "comment": "message",
-//         "time": 1285253453498
+//         "timestamp": 1285253453498
 //     }
 // ]
 
@@ -100,7 +100,7 @@ app.post('/posts/:pid/comments', (req, res) => {
         let matchingPost = posts[postIndex];
         let newcId = 0;
         if(matchingPost.comments[0]) {newcId = matchingPost.comments[0].cid+1};
-        let newComment = {"cid": newcId, "comment": newMessage, "time":timeNow};
+        let newComment = {"cid": newcId, "comment": newMessage, "timestamp":timeNow};
         posts[postIndex].comments.unshift(newComment);
         //fs.writeFileSync("./data/posts.json", JSON.stringify(posts));
         res.json(posts[postIndex]); // only one res. will go through

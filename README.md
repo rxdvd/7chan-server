@@ -95,7 +95,7 @@ To create this API we decided to use the popular routing framework express to im
 
 ## Fixed Bugs
 
-
++ throw an error if a comment is submitted blank
 
 ## Pitfalls & Discoveries
 
