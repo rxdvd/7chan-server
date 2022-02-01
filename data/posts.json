@@ -21,7 +21,7 @@
         "comments": [
             {
                 "cid": 0,
-                "message": "message",
+                "comment": "message",
                 "timestamp": 0
             }
         ],
@@ -41,7 +41,7 @@
         "comments": [
             {
                 "cid": 0,
-                "message": "message",
+                "comment": "message",
                 "timestamp": 0
             }
         ],

@@ -63,7 +63,7 @@ To create this API we decided to use the popular routing framework express to im
     "comments": [
         {
             "cid": 0,
-            "message": "message",
+            "comment": "message",
             "timestamp": 0
         }
     ],
