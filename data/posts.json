@@ -1,21 +1,54 @@
-[
+[   {
+    "pid": 2,
+    "title": "codind a chess board",
+    "message": "its hard, mate",
+    "giphy": "https://media0.giphy.com/media/enNk8yXXpDHYzD3tqF/giphy.gif?cid=5c2583098j8m18kl0gh9xq3wv558ovtq7d8ykr71wna9ycwg&rid=giphy.gif&ct=g",
+    "comments": [
+        
+    ],
+    "reactions": {
+        "thumbs_up": ["1234","2345","3456"],
+        "thumbs_down": ["1234","3457","9876"],
+        "heart": []
+    },
+    "timestamp": 0
+    },
     {
-        "id": 0,
-        "title": "some text",
-        "message": "message",
-        "giphy": "giphy_url",
-        "comments": [
-            {
-                "id": 0,
-                "message": "message",
-                "time": 0
-            }
-        ],
-        "reactions": {
-            "thumbs_up": [],
-            "thumbs_down": [],
-            "heart": []
-        },
-        "time": 0
+    "pid": 1,
+    "title": "making changes persistent",
+    "message": "use fs mate, that works",
+    "giphy": "https://media4.giphy.com/media/WWnRkIRgZKm8o/giphy.gif?cid=e826c9fc5cad77cad0dd5681f2775f0492a9f279c308cd1e&rid=giphy.gif&ct=g",
+    "comments": [
+        {
+            "cid": 0,
+            "comment": "i can't agree more",
+            "timestamp": 0
+        }
+    ],
+    "reactions": {
+        "thumbs_up": ["3456","1234","1239","3456","1234","1239","3456","1234","1239","3456","1234","1239","3456","1234","1239","3456","1234","1239"],
+        "thumbs_down": [],
+        "heart": []
+    },
+    "timestamp": 0
+    },
+    {
+    "pid": 0,
+    "title": "need help with python",
+    "message": "trying to code a missile but it doesn't launch",
+    "giphy": "giphy_url",
+    "comments": [
+        {
+            "cid": 0,
+            "comment": "ask Elon Musk",
+            "timestamp": 0
+        }
+    ],
+    "reactions": {
+        "thumbs_up": [],
+        "thumbs_down": [],
+        "heart": ["5351","3634"]
+    },
+    "timestamp": 0
     }
 ]

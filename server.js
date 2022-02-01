@@ -5,20 +5,13 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-app.get('/posts', (req, res) => {
-    
-});
+const router1 = require('./routes/userRoutes'); // user specific routes
+app.use('/posts', router1); // add user routes when the "/post" route is requested
 
-app.get('/post/:pid', (req, res) => {
+// Welcome message
+app.get('/', (req, res) => {
+    res.json('Welcome to all code runners!')
+})
 
-});
-
-app.post('/posts', (req, res) => {
-
-});
-
-app.post('/post/:pid/emoji', (req, res) => {
-
-});
 
 module.exports = app;
