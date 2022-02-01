@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
 // READ all
 app.get('/posts', (req, res) => {
     res.json(posts)
-    res.send("You can now see all of the posts")
 });
 
 // READ by pid
@@ -28,7 +27,6 @@ app.get('/posts/:pid', (req, res) => {
         let matchingPost = posts.find( ({pid}) => pid == requestedPostId);
         if(!matchingPost) { throw new Error(`Sorry we don't have a post id of ${requestedPostId}`)}
         res.json(matchingPost);
-        //res.send(`You can now see the post ${pid}`)
     } catch (error) {
         res.status(404).json({message: error.message});
     }
@@ -36,11 +34,11 @@ app.get('/posts/:pid', (req, res) => {
 });
 
 // CREATE - one post -will need to add item persistently
-// CLIENT INPUT LOOKS LIKE:
+// CLIENT INPUT LOOKS LIKE THE FOLLOWING (can be used to try the route)
 // { 
 //     "title": "new post, new title",
 //     "message": "new post, new message",
-//     "giphy": "https://media0.giphy.com/media/enNk8yXXpDHYzD3tqF/giphy.gif?cid=5c2583098j8m18kl0gh9xq3wv558ovtq7d8ykr71wna9ycwg&rid=giphy.gif&ct=g",
+//     "giphy": "https://media0.giphy.com/media/enNk8yXXpDHYzD3tqF/giphy.gif?cid=5c2583098j8m18kl0gh9xq3wv558ovtq7d8ykr71wna9ycwg&rid=giphy.gif&ct=g"
 // }
 
 app.post('/posts', (req, res) =>{
@@ -50,7 +48,8 @@ app.post('/posts', (req, res) =>{
     let newMessage = req.body.message;
     let newGiphy = req.body.giphy;
     let timeNow = Date.now();
-
+    if(!newTitle) { throw new Error(`No title entered.`)};
+    if(!newMessage) { throw new Error(`No text entered.`)};
     let newPost = {
         "pid": newId,
         "title": newTitle,
@@ -64,8 +63,6 @@ app.post('/posts', (req, res) =>{
         },
         "time": timeNow
     }
-    if(!newTitle) { throw new Error(`No title entered.`)};
-    if(!newTitle) { throw new Error(`No text entered.`)};
     posts.unshift(newPost);
     res.json(newPost); // only one res. will go through
     //res.send("comment added successfully"); // only one res. will go through
@@ -76,38 +73,31 @@ app.post('/posts', (req, res) =>{
 
 // CREATE - add one comment 
 
-// CLIENT INPUT LOOKS LIKE:
+// CLIENT INPUT LOOKS LIKE THE FOLLOWING (can be used to try the route)::
 // { 
-//     "cid": 2,
-//     "comment": "another comment"
+//  "comment": "another comment"
 // }
 
-// WILL NEED TO FILL IN AN ELEMEMENT that look like:
+// WILL NEED TO FILL IN AN ELEMEMENT THAT LOOKS LIKE THE FOLLOWING:
 // "comments": [
 //     {
-//         "cid": 3,
-//         "message": "message",
+//         "cid": 0,
+//         "comment": "message",
 //         "time": 1285253453498
 //     }
 // ]
 
-app.post('/posts/:id/comments', (req, res) => {
+app.post('/posts/:pid/comments', (req, res) => {
     try {
-        let newMessage = req.body.message;
-        console.log(posts);
-        console.log(newMessage);
+        let newMessage = req.body.comment;
         let timeNow = Date.now();
-        let requestedPostId = req.body.pid;
-        console.log(requestedPostId);
+        let requestedPostId = req.params.pid;
         let postIndex = posts.findIndex(x => x.pid == requestedPostId);
-        console.log(postIndex);
         if(postIndex === -1) { throw new Error(`Sorry we can't find a post id of ${requestedPostId}`)};
         let matchingPost = posts[postIndex];
-        let newcId = matchingPost.comments[0].cid + 1 || 0;
-        console.log(newcId);
-        console.log(posts[postIndex].comments);
-        let newComment = {"cid": newcId, "message": newMessage, "time":timeNow};
-        console.log(newComment);
+        let newcId = 0;
+        if(matchingPost.comments[0]) {newcId = matchingPost.comments[0].cid+1};
+        let newComment = {"cid": newcId, "comment": newMessage, "time":timeNow};
         posts[postIndex].comments.unshift(newComment);
         res.json(posts[postIndex]); // only one res. will go through
         //res.send("comment added successfully") // only one res. will go through
@@ -116,15 +106,14 @@ app.post('/posts/:id/comments', (req, res) => {
     }
 });
 
-// CREATE emoji
+// CREATE emoji {"pid": pid, "emoji": "thumbs_up", "uid": "123456",}
 app.patch('/posts/:pid/emoji', (req, res) => {
     // check if uid from request is in the array
     // remove it if in array
     // push it if not in array
+    let emojiCount = posts[req.params.pid].reactions["thumbs_up"].length;
 
-    let emojiCount = req.body;
 
-    let emojiCountThumbsUp = posts[req.params.pid].reactions["thumbs_up"].length;
     function checkEmojiCountThumbsUp(uid, thumbsUpArr) {
 
         // let uid = insertuidherefromclientside;
