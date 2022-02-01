@@ -6,8 +6,8 @@
         "giphy": "giphy_url",
         "comments": [  ],
         "reactions": {
-            "thumbs_up": [],
-            "thumbs_down": [],
+            "thumbs_up": ["1234","2345","3456"],
+            "thumbs_down": ["1234","2345","3456","4567","3477"],
             "heart": []
         },
         "timestamp": 0
