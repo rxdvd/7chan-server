@@ -38,6 +38,9 @@ describe('SERVER requests', () => {
             "thumbs_down": ["1234","3457","9876"],
             "heart": []
         },
+        "tags": [
+            "javascript", "python", "html"
+        ],
         "timestamp": 0
         },
         {
@@ -57,6 +60,9 @@ describe('SERVER requests', () => {
             "thumbs_down": [],
             "heart": []
         },
+        "tags": [
+            "javascript", "python", "html"
+        ],
         "timestamp": 0
         },
         {
@@ -76,6 +82,9 @@ describe('SERVER requests', () => {
             "thumbs_down": [],
             "heart": ["5351","3634"]
         },
+        "tags": [
+            "javascript", "python", "html"
+        ],
         "timestamp": 0
         }
     ]
@@ -113,6 +122,9 @@ describe('SERVER requests', () => {
             "thumbs_down": ["1234","3457","9876"],
             "heart": []
         },
+        "tags": [
+            "javascript", "python", "html"
+        ],
         "timestamp": 0
         }
 
