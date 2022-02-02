@@ -42,7 +42,7 @@ router1.post('/', (req, res) =>{
     let newTitle = req.body.title;
     let newMessage = req.body.message;
     let newGiphy = req.body.giphy;
-    let newTags = req.body.tags; console.log(newTags);
+    let newTags = req.body.tags;
     let timeNow = Date.now();
     if(!newTitle) { throw new Error(`No title entered.`)};
     if(!newMessage) { throw new Error(`No text entered.`)};
