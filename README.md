@@ -74,7 +74,6 @@ To create this API we decided to use the popular routing framework express to im
         "thumbs_down": [],
         "heart": []
     },
-    "tags": [],
     "timestamp": 0
 }
 ```
@@ -86,7 +85,6 @@ To create this API we decided to use the popular routing framework express to im
     "title": "title",
     "message": "message",
     "giphy": "giphy_url",
-    "tags": []
 }
 ```
 
@@ -97,6 +95,8 @@ To create this API we decided to use the popular routing framework express to im
 
 ## Fixed Bugs
 
++ throw an error if a comment is submitted with no title
++ throw an error if a comment is submitted with no message
 
 
 ## Pitfalls & Discoveries
@@ -104,11 +104,15 @@ To create this API we decided to use the popular routing framework express to im
 <!-- things you didn't know how to do, how you solved it i.e. any time you had to google -->
 + Using a destructuring tecnique to find an object by "inner id": `posts.find( ({pid}) => pid == requestedPostId)` https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
 
++ jest coverage does not count in html files
+
 ## Remaining Bugs
 
 + throw an error if a comment is submitted blank
 
 ## Improvements & Future Features
+
++ We have trialled but not included a server route that requires authentication in order to delete a post 
 
 
 
