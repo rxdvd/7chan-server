@@ -2,29 +2,29 @@ const request = require('supertest');
 const app = require('../server');
 const testObject = require('../data/posts');
 
-describe('SERVER requests', () => {
+describe('Server requests', () => {
 
-    describe('SERVER GET requests', () => {
+    describe('GET requests', () => {
 
-        test('responds GET/ with Welcome to all code runners!', done => {
+        test('responds with status 200 to a GET/ request', done => {
             request(app)
                 .get('/')
                 .expect(200, done)
         })
-        test('responds GET/posts with all the posts correct', done => {
+        test('responds with status 200 to a GET/posts request', done => {
             request(app)
                 .get('/posts')
                 .expect(200, done)
         })
 
-        test('responds GET/posts  with all the post in a JSON file', done => {
+        test('responds with correct content type to a GET/posts request', done => {
             request(app)
                 .get('/posts/')
                 .expect('content-Type', 'application/json; charset=utf-8', done)
 
         })
 
-        test('to see if a get request correctly recieves all posts', done => {
+        test('responds with all posts to a GET/posts request', done => {
             console.log(testObject);
             request(app)
                 .get('/posts')
@@ -32,60 +32,45 @@ describe('SERVER requests', () => {
                 .end(done)
         })
 
-        test('responds GET/posts/:pid with with a a id=1 correct', done => {
-            request(app)
-                .get('/posts')
-                .expect(200, done)
-        })
-
-        test('responds GET/posts/:pid with with a JSON file', done => {
+        test('responds with correct content format to GET/posts/:pid request', done => {
             request(app)
                 .get('/posts/1')
                 .expect('content-Type', 'application/json; charset=utf-8', done)
         })
 
-        
-        let testId2Post = testObject[0]
-
-        test ('to see if a get request correctly recieves post of id=2', done => {
+        test('throw an error for GET/posts/:pid if a post id of pid is not stored', done => {
             request(app)
-                .get('/posts/2')
-                .expect(testId2Post)
-                .end(done)
+                .get('/posts/123762372364')
+                .expect(404, done)
         })
 
         })
 
-    
-    describe('SERVER POST requests', () => {
+    describe('POST requests', () => {
+
+        let testNewPost = {
+            "title": "test text",
+            "message": "test message",
+            "giphy": "www"
+        }
  
-        test('to see if a post request works', done =>{
+        test('responds with status code 200 to a correct post request', done =>{
             request(app)
                 .post('/posts')        
-                .send({
-                "title": "test text",
-                "message": "test message",
-                "giphy": "",
-                })
+                .send(testNewPost)
                 .expect(200, done)
         })
 
-            let testNewPost = {
-                "title": "test text",
-                "message": "test message",
-                "giphy": ""
-            }
- 
-            function hasCorrectResponse (res) {
-                if (!(res.body.title === "test text" )){throw new Error("incorrect title")};
-                if (!(res.body.message === "test message" )){throw new Error("incorrect message")};
-                if (!(res.body.giphy === "" )){throw new Error("incorrect giphy")};
-                if (!(typeof res.body.comments === 'object' )){throw new Error("incorrect comments field")};
-                if (!(typeof res.body.reactions === 'object')){throw new Error("incorrect reactions field")};
-                if (!(res.body.timestamp != undefined )){throw new Error("time stamp undefined")};
-            }
+                function hasCorrectResponse (res) {
+            if (!(res.body.title === "test text" )){throw new Error("incorrect title")};
+            if (!(res.body.message === "test message" )){throw new Error("incorrect message")};
+            if (!(res.body.giphy === "www" )){throw new Error("incorrect giphy")};
+            if (!(typeof res.body.comments === 'object' )){throw new Error("incorrect comments field")};
+            if (!(typeof res.body.reactions === 'object')){throw new Error("incorrect reactions field")};
+            if (!(res.body.timestamp != undefined )){throw new Error("time stamp undefined")};
+        }
 
-        test('to test if a new post is generated correctly', ( done ) => {                    
+        test('create correct object when sending a request to create a new post', ( done ) => {                    
             request(app)
                 .post('/posts')
                 .send(testNewPost)
@@ -93,29 +78,50 @@ describe('SERVER requests', () => {
                 .end(done)
         })
 
-        test('to see if we get a post request for comments working', done =>{
+        let testNewPostWithoutTitle = {
+            "title": "",
+            "message": "test message",
+            "giphy": ""
+        }
+
+        test('throws an error when trying to generate a post without title', ( done ) => {                    
+            request(app)
+                .post('/posts')
+                .send(testNewPostWithoutTitle)
+                .expect(400)
+                .end(done)
+            })
+
+        let testNewPostWithoutMessage = {
+            "title": "here a title",
+            "message": "",
+            "giphy": ""
+        }
+    
+        test('throws an error when trying to generate a post without message', ( done ) => {                    
+            request(app)
+                .post('/posts')
+                .send(testNewPostWithoutMessage)
+                .expect(400)
+                .end(done)
+            })
+
+        test('responds with status 200 to a request to add a new comment to an existing post', done =>{
             request(app)
                 .post('/posts/2/comments')
                 .send({"cid": "6969", "comment": "test message"})
                 .expect(200, done)
         })
 
-        test('to see if we get the post as a text file', done =>{
-            request(app)
-                .get('/2/comments')
-                .expect('content-Type', 'text/html; charset=utf-8', done)
-        })
+        testNewComment = {
+        "comment": "test message"
+        }
 
-            testNewComment = {
-             "comment": "test message"
-            }
+        function hasCorrectCommentResponse (res) {
+            if (!(res.body.comments[0].comment === "test message" )){throw new Error("incorrect comment returned")};
+        }
 
-            function hasCorrectCommentResponse (res) {
-                if (!(res.body.comments[0].comment === "test message" )){throw new Error("incorrect comment returned")};
-
-            }
-
-        test('to see if new comment is generated correctly', done =>{
+        test('create correct message in the comments object', done =>{
             request(app)
                 .post('/posts/2/comments')
                 .send(testNewComment)
@@ -125,34 +131,33 @@ describe('SERVER requests', () => {
 
     })
 
+    test('throw an error for GET/posts/:pid/comments if a post id of pid is not stored ', done => {
+        request(app)
+            .post('/posts/1237623/comments')
+            .expect(404, done)
+    })
+
     describe('SERVER PATCH requests', () => {
 
-        test('to see if the patch request has went through', done =>{
+        test('responds with status code 200 to a correct patch request for emojis', done =>{
             request(app)
                 .patch('/posts/2/emoji')
                 .send({'emoji': 'thumbs_down', 'uid': '9876'})
                 .expect(200, done)
         })
 
-        test('responds PATCH to makesure emojis returns a text in an array', done => {
-            request(app)
-                .get('/posts/1/emoji')
-                .expect('content-Type', 'text/html; charset=utf-8', done)
-        })
-    
-
             let testNewEmoji = {
                 'emoji': 'thumbs_down',
-                'uid': '8765'
+                'uid': '8765123'
                 }
         
 
             function hasCorrectEmojiResponse (res) {
                     console.log(res.body)
-                if (!(res.body.reactions.thumbs_down[0] === "8765")){throw new Error("incorrect thumbs_down uid")};
+                if (!(res.body.reactions.thumbs_down[0] === "8765123")){throw new Error("incorrect thumbs_down uid")};
             }
 
-        test('responds PATCH updating uid in an array', done =>{
+        test('updates emoji count correctly', done =>{
             request(app)
                 .patch('/posts/1/emoji')
                 .send(testNewEmoji)
