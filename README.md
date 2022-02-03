@@ -33,7 +33,7 @@ Build a website where users can anonymously post journal entries for other peopl
 
 ## Design & Implementation
 
-To create this API we decided to use the popular routing framework express to implement our routes. Emoji reactions for posts and comments use cookies to keep track of who has reacted.
+To create this API we decided to use the popular routing framework express to implement our routes. Emoji reactions for posts use cookies to keep track of who has reacted in order to offer users the option of removing their own reactions.
 
 <!-- maybe put image of api working here, like the gifs from our debug assignment -->
 
@@ -49,8 +49,8 @@ To create this API we decided to use the popular routing framework express to im
 | `GET /posts` | Return a JSON object of all post data |
 | `GET /posts/:pid` | Return a JSON object with data for a specific post |
 | `POST /posts` | Create a new post data entry |
-| `POST /posts/:pid/comments` | Create a new comment data entry |
-| `POST /posts/:pid/emoji` | Add or remove an emoji reaction from a post |
+| `POST /posts/:pid/comments` | Create a new comment data entry for a specific post |
+| `PATCH /posts/:pid/emoji` | Add or remove an emoji reaction from a specific post |
 
 ### Object Structure
 
