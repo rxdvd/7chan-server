@@ -20,7 +20,7 @@ API server for group project working on an anonymous community journaling websit
 
 ### Deployment
 
-This server is currently deployed at https://safe-coast-17152.herokuapp.com/
+This server is currently deployed at https://coderunner-blog.herokuapp.com/
 
 ## Project Goal
 
@@ -47,10 +47,10 @@ To create this API we decided to use the popular routing framework express to im
 | Route | Action |
 | - | - |
 | `GET /posts` | Return a JSON object of all post data |
-| `GET /post/:pid` | Return a JSON object with data for a specific post |
+| `GET /posts/:pid` | Return a JSON object with data for a specific post |
 | `POST /posts` | Create a new post data entry |
 | `POST /posts/:pid/comments` | Create a new comment data entry |
-| `POST /post/:pid/emoji` | Add or remove an emoji reaction from a post |
+| `POST /posts/:pid/emoji` | Add or remove an emoji reaction from a post |
 
 ### Object Structure
 
@@ -74,6 +74,7 @@ To create this API we decided to use the popular routing framework express to im
         "thumbs_down": [],
         "heart": []
     },
+    "tags": [],
     "timestamp": 0
 }
 ```
@@ -85,6 +86,7 @@ To create this API we decided to use the popular routing framework express to im
     "title": "title",
     "message": "message",
     "giphy": "giphy_url",
+    "tags": []
 }
 ```
 
