@@ -20,7 +20,7 @@ API server for group project working on an anonymous community journaling websit
 
 ### Deployment
 
-This server is currently deployed at https://safe-coast-17152.herokuapp.com/
+This server is currently deployed at https://coderunner-blog.herokuapp.com/
 
 ## Project Goal
 
