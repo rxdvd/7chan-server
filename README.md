@@ -74,6 +74,7 @@ To create this API we decided to use the popular routing framework express to im
         "thumbs_down": [],
         "heart": []
     },
+    "tags": [],
     "timestamp": 0
 }
 ```
@@ -85,6 +86,7 @@ To create this API we decided to use the popular routing framework express to im
     "title": "title",
     "message": "message",
     "giphy": "giphy_url",
+    "tags": []
 }
 ```
 
