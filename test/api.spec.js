@@ -6,12 +6,12 @@ describe('Server requests', () => {
 
     describe('GET requests', () => {
 
-        test('responds with status 200 to a GET/ request', done => {
+        test('responds with status code 200 to a GET/ request', done => {
             request(app)
                 .get('/')
                 .expect(200, done)
         })
-        test('responds with status 200 to a GET/posts request', done => {
+        test('responds with status code 200 to a GET/posts request', done => {
             request(app)
                 .get('/posts')
                 .expect(200, done)
@@ -38,7 +38,7 @@ describe('Server requests', () => {
                 .expect('content-Type', 'application/json; charset=utf-8', done)
         })
 
-        test('throw an error for GET/posts/:pid if a post id of pid is not stored', done => {
+        test('throws an error for GET/posts/:pid if a post id of pid is not stored', done => {
             request(app)
                 .get('/posts/123762372364')
                 .expect(404, done)
@@ -106,7 +106,7 @@ describe('Server requests', () => {
                 .end(done)
             })
 
-        test('responds with status 200 to a request to add a new comment to an existing post', done =>{
+        test('responds with status code 200 to a request to add a new comment to an existing post', done =>{
             request(app)
                 .post('/posts/2/comments')
                 .send({"cid": "6969", "comment": "test message"})
@@ -137,7 +137,7 @@ describe('Server requests', () => {
             .expect(404, done)
     })
 
-    describe('SERVER PATCH requests', () => {
+    describe('PATCH requests', () => {
 
         test('responds with status code 200 to a correct patch request for emojis', done =>{
             request(app)
