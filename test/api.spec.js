@@ -1,4 +1,3 @@
-const req = require('express/lib/request');
 const request = require('supertest');
 const app = require('../server');
 
