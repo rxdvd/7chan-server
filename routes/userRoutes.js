@@ -97,20 +97,23 @@ router1.post('/:pid/comments', (req, res) => {
 // UPDATE emoji count.
 // Example of client input: {"emoji": "thumbs_down", "uid": "1234"}
 router1.patch('/:pid/emoji', (req, res) => {
-
     let userId = req.body.uid; 
     let requestedEmoji = req.body.emoji;
     let requestedPostId = req.params.pid;
 
-    let postIndex = posts.findIndex(x => x.pid == requestedPostId);  // find post
-    let isUIDin = posts[postIndex].reactions[requestedEmoji].includes(userId);  // check if uid from request is in the array
-   
-    if(!isUIDin) //toggle "function"
-        {posts[postIndex].reactions[requestedEmoji].unshift(userId);}
-       else
-        {posts[postIndex].reactions[requestedEmoji].splice(posts[postIndex].reactions[requestedEmoji].indexOf(userId), 1);} 
-    res.json(posts[postIndex]);
+    // find post
+    let postIndex = posts.findIndex(x => x.pid == requestedPostId);  
+    // check if uid from request is in the array
+    let isUIDin = posts[postIndex].reactions[requestedEmoji].includes(userId);  
     
+    //toggle "function"
+    if(!isUIDin) {
+        posts[postIndex].reactions[requestedEmoji].unshift(userId);
+    } else {
+        posts[postIndex].reactions[requestedEmoji]
+        .splice(posts[postIndex].reactions[requestedEmoji].indexOf(userId), 1);
+    } 
+    res.json(posts[postIndex]);
 });
 
 module.exports = router1;
