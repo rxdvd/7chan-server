@@ -111,8 +111,8 @@ To create this API we decided to use the popular routing framework express to im
 
 ## Changelog
 
-* `/posts` routes factored into a file.
-* Added `express.Router` middleware to handle the `/posts` routes.
+* `/posts` routes factored into a separate file.
+* Added `express.Router` middleware to handle the `/posts` route.
 * Tags can be added to posts.
 * Tested error handling of routes.
 
