@@ -33,7 +33,7 @@ Build a website where users can anonymously post journal entries for other peopl
 
 ## Design & Implementation
 
-To create this API we decided to use the popular routing framework express to implement our routes. Emoji reactions for posts use cookies to keep track of who has reacted in order to offer users the option of removing their own reactions.
+To create this API we decided to use the popular routing framework express to implement our routes. Emoji reactions for posts use cookies to keep track of who has reacted in order to avoid spamming and offer users the option of undoing their own reactions.
 
 <!-- maybe put image of api working here, like the gifs from our debug assignment -->
 
@@ -111,30 +111,27 @@ To create this API we decided to use the popular routing framework express to im
 
 ## Changelog
 
-* `/posts` routes factored into separate file.
+* `/posts` routes factored into a file.
+* Added `express.Router` middleware to handle the `/posts` routes.
 * Tags can be added to posts.
+* Tested error handling of routes.
 
 ## Fixed Bugs
 
-+ throw an error if a comment is submitted with no title
-+ throw an error if a comment is submitted with no message
-
-- [x] Empty posts are accepted into the data.
+- [x] Posts with missing title are accepted into the data.
+- [x] Posts with empty message field are accepted into the data.
 
 ## Pitfalls & Discoveries
 
-* Posts matching certain criteria could easily be found within the data array using the [`Array.find`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) method.
+* Finding a post (in the Posts array) by one of its properties using the [`Array.find`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) function.
 
-+ jest coverage does not count in html files
+* `express.Router` can be used as a middleware to handle routes.
 
 ## Remaining Bugs
 
 - [ ] Blank comments are accepted into the data.
 
 ## Improvements & Future Features
-
-+ We have trialled but not included a server route that requires authentication in order to delete a post 
-
 
 * Post moderation by adding a password protected delete route into the API.
 * Nicknames to be added to posts alongside the title and message.
