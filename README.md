@@ -41,6 +41,7 @@ To create this API we decided to use the popular routing framework express to im
 
 * [node.js 🔗](https://nodejs.org/) 
 * [express 🔗](https://expressjs.com/)
+* [Jest 🔗](https://jestjs.io/)
 
 ### Routes
 
@@ -74,47 +75,69 @@ To create this API we decided to use the popular routing framework express to im
         "thumbs_down": [],
         "heart": []
     },
+    "tags": [],
     "timestamp": 0
 }
 ```
 
-### Obj structure to Create Post from User Input
+#### `POST /posts` request body
 
 ```json
-{ // for each journal post
+{
     "title": "title",
     "message": "message",
     "giphy": "giphy_url",
+    "tags": [
+        "tag1", "tag2", "tag3"
+    ]
 }
 ```
 
+#### `PATCH /posts/:pid/emoji` request body
+
+```json
+{
+    "emoji": "thumbs_up",
+    "uid": "3253463463" // localStorage item so that users can add/remove reactions
+}
+```
+#### `POST /posts/:pid/comments` request body
+
+```json
+{
+    "comment": "message"
+}
+```
 
 ## Changelog
 
-+ Renamed `id` tp `pid` for post id and `cid` for comment id 
+* `/posts` routes factored into separate file.
+* Tags can be added to posts.
 
 ## Fixed Bugs
 
 + throw an error if a comment is submitted with no title
 + throw an error if a comment is submitted with no message
 
+- [x] Empty posts are accepted into the data.
 
 ## Pitfalls & Discoveries
 
-<!-- things you didn't know how to do, how you solved it i.e. any time you had to google -->
-+ Using a destructuring tecnique to find an object by "inner id": `posts.find( ({pid}) => pid == requestedPostId)` https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+* Posts matching certain criteria could easily be found within the data array using the [`Array.find`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) method.
 
 + jest coverage does not count in html files
 
 ## Remaining Bugs
 
-+ throw an error if a comment is submitted blank
+- [ ] Blank comments are accepted into the data.
 
 ## Improvements & Future Features
 
 + We have trialled but not included a server route that requires authentication in order to delete a post 
 
 
+* Post moderation by adding a password protected delete route into the API.
+* Nicknames to be added to posts alongside the title and message.
 
 ## License
 
