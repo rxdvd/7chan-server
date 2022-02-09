@@ -1,16 +1,14 @@
 const express = require('express');
-const router1 = express.Router();
-const posts = require("../data/posts.json")
+const router = express.Router();
+const posts = require("../data/posts.json");
 
-// C R U D notation 
-
-// READ all
-router1.get('/', (req, res) => {
-    res.json(posts)
+// GET /posts
+router.get('/', (req, res) => {
+    res.json(posts);
 });
 
-// READ by pid
-router1.get('/:pid', (req, res) => {
+// GET /posts/:pid
+router.get('/:pid', (req, res) => {
     try {
         let requestedPostId = req.params.pid;
         let matchingPost = posts.find( ({pid}) => pid == requestedPostId);
@@ -30,7 +28,7 @@ router1.get('/:pid', (req, res) => {
 //     "giphy": "https://media0.giphy.com/media/enNk8yXXpDHYzD3tqF/giphy.gif?cid=5c2583098j8m18kl0gh9xq3wv558ovtq7d8ykr71wna9ycwg&rid=giphy.gif&ct=g"
 // }
 
-router1.post('/', (req, res) =>{
+router.post('/', (req, res) =>{
     try{
     let newId = posts[0].pid + 1;
     let newTitle = req.body.title;
@@ -76,7 +74,7 @@ router1.post('/', (req, res) =>{
 //     }
 // ]
 
-router1.post('/:pid/comments', (req, res) => {
+router.post('/:pid/comments', (req, res) => {
     try {
         let newMessage = req.body.comment;
         let timeNow = Date.now();
@@ -96,7 +94,7 @@ router1.post('/:pid/comments', (req, res) => {
 
 // UPDATE emoji count.
 // Example of client input: {"emoji": "thumbs_down", "uid": "1234"}
-router1.patch('/:pid/emoji', (req, res) => {
+router.patch('/:pid/emoji', (req, res) => {
     let userId = req.body.uid; 
     let requestedEmoji = req.body.emoji;
     let requestedPostId = req.params.pid;
@@ -116,4 +114,4 @@ router1.patch('/:pid/emoji', (req, res) => {
     res.json(posts[postIndex]);
 });
 
-module.exports = router1;
+module.exports = router;
