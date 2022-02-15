@@ -1,4 +1,4 @@
-const { init } = require("../mongo")
+const { init } = require("../mongo");
 
 class Post {
     constructor(data){
