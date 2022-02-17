@@ -1,4 +1,4 @@
-const { init } = require("../mongo");
+const db = require("../postgres");
 
 class Post {
     constructor(data){
@@ -10,9 +10,38 @@ class Post {
     static get all() {
         return new Promise( async (resolve, reject) => {
             try {
-                const db = await init();
-                const postsData = await db.collection('posts').find().toArray();
-                const posts = postsData.map(post => new Post(post));
+                const postsData = await db.query("SELECT * FROM posts");
+                const posts = postsData.rows.map(post => new Post(post));
+                const commentsData = await db.query("SELECT * FROM comments");
+                const comments = commentsData.rows;
+                const reactionsData = await db.query(`
+                    SELECT pid, name, uid FROM reactions 
+                    JOIN emojis ON reactions.eid = emojis.eid
+                `);
+                const reactions = reactionsData.rows;
+                const emojisData = await db.query("SELECT name FROM emojis");
+                const emojis = emojisData.rows.map(e => e.name);
+                
+                posts.forEach(post => {
+                    post.comments = comments.filter(comment => comment.pid === post.pid)
+                    .map(comment => {
+                        comment.timestamp = parseInt(comment.timestamp);
+                        delete comment.pid;
+                        return comment;
+                    });
+                    post.reactions = {};
+                    emojis.forEach(emoji => {
+                        post.reactions[emoji] = [];
+                    });
+                    for(let reaction in post.reactions) {
+                        post.reactions[reaction] = reactions
+                        .filter(r => r.name === reaction && r.pid === post.pid)
+                        .map(r => r.uid);
+                    }
+                    post.tags = post.tags ? post.tags.split(", ") : [];
+                    post.timestamp = parseInt(post.timestamp);
+                });
+
                 resolve(posts);
             } catch(err) {
                 reject(err);
@@ -25,13 +54,48 @@ class Post {
             try {
                 if(!pid) throw new Error("No post id specified.");
 
-                const db = await init();
-                const postsData = await db.collection('posts').find({
-                    pid: parseInt(pid)
-                }).toArray();
+                const postsData = (await db.query(`
+                    SELECT posts.*, cid, comment, comments.timestamp AS c_time,  
+                    emojis.name AS reaction, uid FROM posts 
+                    LEFT JOIN comments ON posts.pid = comments.pid 
+                    LEFT JOIN reactions ON posts.pid = reactions.pid 
+                    LEFT JOIN emojis ON reactions.eid = emojis.eid 
+                    WHERE posts.pid = $1
+                `, [pid]));
+                if(!postsData.rows.length) throw new Error("Post not found.");
 
-                if(!postsData[0]) throw new Error("Post not found.");
-                resolve(new Post(postsData[0]));
+                const emojisData = await db.query("SELECT name FROM emojis");
+                const emojis = emojisData.rows.map(e => e.name);
+
+                let comments = postsData.rows
+                .filter(row => row.cid)
+                .filter((row, index, array) => {
+                    return array.findIndex(e => e.cid === row.cid) === index
+                })
+                .map(({cid, comment, c_time}) => ({
+                    cid: cid,
+                    comment: comment,
+                    timestamp: parseInt(c_time)
+                }));
+
+                let post = {
+                    pid: postsData.rows[0].pid,
+                    title: postsData.rows[0].title,
+                    message: postsData.rows[0].message,
+                    giphy: postsData.rows[0].giphy,
+                    comments: comments,
+                    reactions: {},
+                    tags: postsData.rows[0].tags ? postsData.rows[0].tags.split(", ") : [],
+                    timestamp: parseInt(postsData.rows[0].timestamp)
+                }
+
+                emojis.forEach(emoji => {
+                    post.reactions[emoji] = postsData.rows
+                    .filter(row => row.reaction === emoji)
+                    .map(row => row.uid);
+                });
+
+                resolve(new Post(post));
             } catch(err) {
                 reject(err);
             }
@@ -44,28 +108,36 @@ class Post {
                 if(!title) throw new Error("No title.");
                 if(!message) throw new Error("No message.");
 
-                const db = await init();
-                const sortedPosts = await db.collection('posts').find().sort({pid:-1}).toArray();
+                const emojisData = await db.query("SELECT name FROM emojis");
+                const emojis = emojisData.rows.map(e => e.name);
 
-                let newId = sortedPosts.length ? sortedPosts[0].pid + 1 : 0;
-                let newPost = {
-                    "pid": newId,
-                    "title": title,
-                    "message": message,
-                    "giphy": giphy,
-                    "comments": [],
-                    "reactions": {
-                        "thumbs_up": [],
-                        "thumbs_down": [],
-                        "heart": []
-                    },
-                    "tags": tags,
-                    "timestamp": Date.now()
+                const timestamp = Date.now();
+                const postsData = await db.query(`
+                    INSERT INTO posts (
+                        title, message, giphy, tags, timestamp
+                    ) VALUES (
+                        $1, $2, $3, $4, $5
+                    ) RETURNING *
+                `, [
+                    title,
+                    message,
+                    giphy,
+                    tags.join(", "),
+                    timestamp
+                ]);
+
+                let post = {
+                    ...postsData.rows[0],
+                    comments: [],
+                    reactions: {},
+                    timestamp: timestamp
                 };
 
-                const postsData = await db.collection('posts').insertOne(newPost);
+                emojis.forEach(emoji => {
+                    post.reactions[emoji] = [];
+                });
 
-                resolve(new Post({_id: postsData.insertedId, ...newPost}));
+                resolve(new Post(post));
             } catch(err) {
                 reject(err);
             }
@@ -76,21 +148,21 @@ class Post {
         return new Promise( async (resolve, reject) => {
             try {
                 if(!text) throw new Error("No comment.");
-                let maxCid = Math.max(...this.comments.map(comment => comment.cid));
-                let newCid = this.comments.length ? maxCid + 1 : 0;
                 let newComment = {
-                    "cid": newCid, 
-                    "comment": text, 
-                    "timestamp": Date.now()
+                    comment: text, 
+                    timestamp: Date.now()
                 };
-                this.comments.unshift(newComment);
 
-                const db = await init();
-                await db.collection('posts').findOneAndUpdate({
-                    pid: parseInt(this.pid)
-                },{
-                    $set: { comments: this.comments }
-                });
+                let result = await db.query(`
+                    INSERT INTO comments (
+                        comment, timestamp, pid
+                    ) VALUES (
+                        $1, $2, $3
+                    ) RETURNING *
+                `, [newComment.comment, newComment.timestamp, this.pid]);
+                
+                newComment.cid = result.rows[0].cid;
+                this.comments.push(newComment);
 
                 resolve(this);
             } catch(err){
@@ -107,17 +179,24 @@ class Post {
                 let reactions = this.reactions[emoji];
                 let uidIndex = reactions.indexOf(uid);
                 if(uidIndex < 0) {
+                    await db.query(`
+                        INSERT INTO reactions (
+                            eid, pid, uid
+                        ) 
+                        SELECT eid, $1 AS pid, $2 AS uid FROM emojis 
+                        WHERE name = $3
+                    `, [this.pid, uid, emoji]);
                     reactions.unshift(uid);
                 } else {
+                    await db.query(`
+                        DELETE FROM reactions USING emojis 
+                        WHERE reactions.eid = emojis.eid 
+                        AND emojis.name = $1 
+                        AND reactions.uid = $2 
+                        AND reactions.pid = $3
+                    `, [emoji, uid, this.pid]);
                     reactions.splice(uidIndex, 1);
                 }
-
-                const db = await init();
-                await db.collection('posts').findOneAndUpdate({
-                    pid: parseInt(this.pid)
-                },{
-                    $set: { reactions: this.reactions }
-                });
 
                 resolve(this);
             } catch(err){
